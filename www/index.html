@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Anderson Nascimento">
+    <title>Login</title>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-functions.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/project.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/project.css" rel="stylesheet">
+</head>
+
+<body>
+    <form class="form-signin">
+        <div class="text-center mb-4">
+            <img class="mb-4" src="img/bootstrap-solid.png" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        </div>
+
+        <div class="form-label-group">
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+            <label for="inputEmail">Email</label>
+        </div>
+
+        <div class="form-label-group">
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <label for="inputPassword">Password</label>
+        </div>
+
+        <div class="text-center mb-4" style="text-align: center!important;">
+            <p>Caso nao tenha acesso <code><a href="signin.html">cadastrar-se</a></code>, </br>
+                ou já é cadastrado e esqueceu a senha <code><a href="forgotit.html">clique aqui</a></code>
+            </p>
+        </div>
+        <button id="login" class="btn btn-lg btn-primary btn-block" type="button">Login</button>
+        <p class="mt-5 mb-3 text-muted text-center">&copy; 2018-2019</p>
+    </form>
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function() {
+
+        $('#inputEmail').focus();
+
+    });
+
+    $("#login").click(function() {
+
+        var email = $('#inputEmail').val();
+        var password = $('#inputPassword').val();
+
+        logar(email, password, "home.html");
+
+    });
+</script>
