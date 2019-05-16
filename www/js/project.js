@@ -1,6 +1,9 @@
-$(document).ready(function () {
+var db;
+var storage;
+var storageRef;
+$(document).ready(function() {
 
-    $("#go_back").click(function () {
+    $("#go_back").click(function() {
         window.history.back();
     });
 
@@ -15,15 +18,19 @@ $(document).ready(function () {
         appId: "1:662383105600:web:83cd95e840b796ff"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    var app = firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore(app);
+    storage = firebase.storage();
+    storageRef = storage.ref();
+
 });
 
 function logar(email, password, page) {
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(function () {
+        .then(function() {
             window.location = page;
         })
-        .catch(function (error) {
+        .catch(function(error) {
             console.error(error);
             alert("Anderson " + error);
         });
@@ -31,35 +38,33 @@ function logar(email, password, page) {
 
 function singin(name, phone, email, password, page) {
     firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(function() {
 
-        .then(function () {
-
-            window.location = page;
-
+            db.collection("APP_USER_DEFAULT").doc(firebase.auth().currentUser.uid).set({
+                    id: firebase.auth().currentUser.uid,
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    avatar: "",
+                    create: new Date,
+                    update: new Date
+                })
+                .then(function(docRef) {
+                    window.location = page;
+                })
+                .catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(error);
+                    // ...
+                });
         })
-        .catch(function (error) {
+        .catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             alert(error);
             // ...
-        });
-}
-
-
-function saveUser(email, name, phone) {
-    firebase.collection("APP_USER_DEFAULT").add({
-        id: firebase.auth().currentUser.uid,
-        name: name,
-        phone: phone,
-        email: email,
-        create: new Date,
-        update: new Date
-    })
-        .then(function (docRef) {
-            alert("Document written with ID: ", docRef.id);
-        })
-        .catch(function (error) {
-            alert("Error writing document: ", error);
         });
 }

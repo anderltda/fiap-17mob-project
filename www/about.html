@@ -65,55 +65,10 @@
                 <h4 class="mb-3">About</h4>
 
                 <form class="needs-validation" novalidate>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <input type="text" class="form-control" id="cep" placeholder="CEP" required>
-                            <div class="invalid-feedback">
-                                É necessário informar o CEP.
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 mb-3">
-                            <input type="text" class="form-control" id="logradouro" placeholder="Logradouro" disabled>
-                            <div class="invalid-feedback">
-                                É necessário informar o Logradouro.
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 mb-3">
-                            <input type="text" class="form-control" id="numero" placeholder="Numero" required>
-                            <div class="invalid-feedback">
-                                É necessário informar o Numero.
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 mb-3">
-                            <input type="text" class="form-control" id="bairro" placeholder="Bairro" required>
-                            <div class="invalid-feedback">
-                                É necessário informar o Numero.
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 mb-3">
-                            <input type="text" class="form-control" id="cidade" placeholder="Cidade" disabled>
-                            <div class="invalid-feedback">
-                                É necessário informar a Cidade.
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <select class="custom-select d-block w-100" id="uf" disabled>
-                                <option value="">Selecione...</option>
-                                <option>São Paulo</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Selecione um estado.
-                            </div>
-                        </div>
-                    </div>
 
                     <hr class="mb-4">
 
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Enviar</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="button">Sign-Out</button>
                 </form>
             </div>
         </div>
@@ -123,14 +78,14 @@
 
 
 <script>
-    $("#signin").click(function() {
+    $("button").click(function() {
 
-        var name = $('#inputName').val();
-        var phone = $('#inputPhone').val();
-        var email = $('#inputEmail').val();
-        var password = $('#inputPassword').val();
-
-        singin(name, phone, email, password, "index.html");
+        firebase.auth().signOut()
+            .then(function() {
+                window.location = "index.html";
+            }, function(error) {
+                console.error(error);
+            });
 
     });
 </script>
