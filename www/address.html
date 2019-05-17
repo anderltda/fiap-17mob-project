@@ -6,18 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Anderson Nascimento">
-    <title>Home</title>
-    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-messaging.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-functions.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/form-validation.js"></script>
-    <script src="js/project.js"></script>
+    <title>Address</title>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/6.0.2/firebase-storage.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/6.0.2/firebase-messaging.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/firebasejs/6.0.2/firebase-functions.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/form-validation.js"></script>
+    <script type="text/javascript" src="js/project.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/docs.min.css" rel="stylesheet">
 </head>
@@ -53,7 +54,7 @@
                     <a class="nav-link" href="location.html" rel="noopener">Location</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html" rel="noopener">About</a>
+                    <a class="nav-link" href="about.html" rel="noopener">Exit</a>
                 </li>
             </ul>
         </div>
@@ -63,14 +64,14 @@
         <div class="row py-5">
             <div class="col-12 order-md-1">
                 <h4 class="mb-3">Addres</h4>
-
+                <div id="contents"></div>
                 <form class="needs-validation" novalidate>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="cep" placeholder="CEP" required>
+                                <input type="text" class="form-control" id="cep" maxlength="8" placeholder="CEP" required>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                                    <button id="bt_cep" class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
                                 </div>
                                 <div class="invalid-feedback">
                                     É necessário informar o CEP.
@@ -93,10 +94,14 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <input type="text" class="form-control" id="bairro" placeholder="Bairro" required>
+                            <input type="text" class="form-control" id="bairro" placeholder="Bairro" disabled>
                             <div class="invalid-feedback">
                                 É necessário informar o Numero.
                             </div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <input type="text" class="form-control" id="complemento" placeholder="Complemento">
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -106,9 +111,35 @@
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <select class="custom-select d-block w-100" id="uf" disabled>
+                            <select class="custom-select d-block w-100" id="estado" disabled>
                                 <option value="">Selecione...</option>
-                                <option>São Paulo</option>
+                                <option>AC</option>
+                                <option>AL</option>
+                                <option>AP</option>
+                                <option>AM</option>
+                                <option>BA</option>
+                                <option>CE</option>
+                                <option>DF</option>
+                                <option>ES</option>
+                                <option>GO</option>
+                                <option>MA</option>
+                                <option>MT</option>
+                                <option>MS</option>
+                                <option>MG</option>
+                                <option>PA</option>
+                                <option>PB</option>
+                                <option>PR</option>
+                                <option>PE</option>
+                                <option>PI</option>
+                                <option>RJ</option>
+                                <option>RN</option>
+                                <option>RS</option>
+                                <option>RO</option>
+                                <option>RR</option>
+                                <option>SC</option>
+                                <option>SP</option>
+                                <option>SE</option>
+                                <option>TO</option>
                             </select>
                             <div class="invalid-feedback">
                                 Selecione um estado.
@@ -118,7 +149,7 @@
 
                     <hr class="mb-4">
 
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Enviar</button>
+                    <button id="bt_enviar" class="btn btn-primary btn-lg btn-block" type="button">Enviar</button>
                 </form>
             </div>
         </div>
@@ -128,14 +159,115 @@
 
 
 <script>
-    $("#signin").click(function() {
+    var data;
+    var data_user;
+    $(document).ready(function() {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                findByUser(user.uid)
+                findByAddress(user.uid);
+            } else {
 
-        var name = $('#inputName').val();
-        var phone = $('#inputPhone').val();
-        var email = $('#inputEmail').val();
-        var password = $('#inputPassword').val();
-
-        singin(name, phone, email, password, "index.html");
-
+            }
+        });
     });
+
+    function findByUser(id) {
+
+        var docRef = db.collection("APP_USER_DEFAULT").doc(id);
+
+        docRef.get().then(function(doc) {
+            if (doc.exists) {
+                data_user = doc.data();
+            } else {
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+    }
+
+    function findByAddress(id) {
+
+        var docRef = db.collection("LOCATIONS").doc(id);
+
+        docRef.get().then(function(doc) {
+            if (doc.exists) {
+                data = doc.data();
+                $('#cep').val(data.cep);
+                $('#logradouro').val(data.logradouro);
+                $('#cidade').val(data.localidade);
+                $('#estado').val(data.estado);
+                $('#bairro').val(data.bairro);
+                $('#numero').val(data.number);
+                $('#complemento').val(data.complemento);
+            } else {
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+    }
+
+    $("#bt_cep").click(function() {
+        var cep = $('#cep').val();
+        var url = "https://viacep.com.br/ws/" + cep + "/json/";
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', url, true)
+        xhr.onload = function() {
+            var address = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                console.table(address);
+                $('#logradouro').val(address.logradouro);
+                $('#cidade').val(address.localidade);
+                $('#estado').val(address.uf);
+                $('#bairro').val(address.bairro);
+            } else {
+                console.error(address);
+            }
+        }
+        xhr.send(null);
+    });
+
+
+
+    $("#bt_enviar").click(function() {
+        saveBaseFirebase();
+    });
+
+    function saveBaseFirebase() {
+
+        var id = data_user.id;
+        var create = new Date;
+
+        if (data && data.create) {
+            create = data.create;
+        }
+
+        db.collection("LOCATIONS").doc(id).set({
+                cep: $('#cep').val(),
+                logradouro: $('#logradouro').val(),
+                number: $('#numero').val(),
+                bairro: $('#bairro').val(),
+                localidade: $('#cidade').val(),
+                complemento: $('#complemento').val(),
+                estado: $('#estado').val(),
+                id: data_user.id,
+                name: data_user.name,
+                lat: "-23.4834015",
+                long: "-46.661051",
+                gia: "",
+                ibge: "",
+                unidade: "",
+                create: create,
+                update: new Date
+            })
+            .then(function(docRef) {
+                console.log("Document ok update");
+            })
+            .catch(function(error) {
+                console.log("Error writing document: ", error);
+            });
+
+    }
 </script>
