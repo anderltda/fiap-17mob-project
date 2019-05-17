@@ -17,6 +17,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-waitingfor.js"></script>
     <script type="text/javascript" src="js/form-validation.js"></script>
     <script type="text/javascript" src="js/project.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -54,7 +55,7 @@
                     <a class="nav-link" href="location.html" rel="noopener">Location</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html" rel="noopener">Exit</a>
+                    <a class="nav-link" href="about.html" rel="noopener">About (Sign-Out)</a>
                 </li>
             </ul>
         </div>
@@ -71,7 +72,7 @@
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" id="cep" maxlength="8" placeholder="CEP" required>
                                 <div class="input-group-append">
-                                    <button id="bt_cep" class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                                    <button id="bt_cep" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
                                 </div>
                                 <div class="invalid-feedback">
                                     É necessário informar o CEP.
@@ -162,12 +163,13 @@
     var data;
     var data_user;
     $(document).ready(function() {
+        waitingDialog.show('Loading...');
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 findByUser(user.uid)
                 findByAddress(user.uid);
             } else {
-
+                waitingDialog.hide();
             }
         });
     });
@@ -201,19 +203,31 @@
                 $('#bairro').val(data.bairro);
                 $('#numero').val(data.number);
                 $('#complemento').val(data.complemento);
+                waitingDialog.hide();
             } else {
+                waitingDialog.hide();
                 console.log("No such document!");
             }
         }).catch(function(error) {
+            waitingDialog.hide();
             console.log("Error getting document:", error);
         });
     }
 
     $("#bt_cep").click(function() {
+
+        waitingDialog.show('Loading...', {
+            dialogSize: 'm',
+            progressType: 'success'
+        });
+        setTimeout(function() {
+            waitingDialog.hide();
+        }, 2000);
+
         var cep = $('#cep').val();
         var url = "https://viacep.com.br/ws/" + cep + "/json/";
-        var xhr = new XMLHttpRequest()
-        xhr.open('GET', url, true)
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
         xhr.onload = function() {
             var address = JSON.parse(xhr.responseText);
             if (xhr.readyState == 4 && xhr.status == "200") {
@@ -222,16 +236,25 @@
                 $('#cidade').val(address.localidade);
                 $('#estado').val(address.uf);
                 $('#bairro').val(address.bairro);
+                waitingDialog.hide();
             } else {
+                waitingDialog.hide();
                 console.error(address);
             }
         }
         xhr.send(null);
     });
 
-
-
     $("#bt_enviar").click(function() {
+
+        waitingDialog.show('Salvando aguarde...', {
+            dialogSize: 'm',
+            progressType: 'success'
+        });
+        setTimeout(function() {
+            waitingDialog.hide();
+        }, 2000);
+
         saveBaseFirebase();
     });
 
@@ -263,9 +286,11 @@
                 update: new Date
             })
             .then(function(docRef) {
+                waitingDialog.hide();
                 console.log("Document ok update");
             })
             .catch(function(error) {
+                waitingDialog.hide();
                 console.log("Error writing document: ", error);
             });
 

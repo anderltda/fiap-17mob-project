@@ -17,6 +17,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-waitingfor.js"></script>
     <script type="text/javascript" src="js/form-validation.js"></script>
     <script type="text/javascript" src="js/project.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -53,7 +54,7 @@
                     <a class="nav-link" href="location.html" rel="noopener">Location</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html" rel="noopener">Exit</a>
+                    <a class="nav-link" href="about.html" rel="noopener">About (Sign-Out)</a>
                 </li>
             </ul>
         </div>
@@ -85,7 +86,7 @@
                         <div class="col-md-6 mb-3">
                             <input type="text" id="inputPhone" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="11" placeholder="Phone xx999999999" required autofocus>
                             <div class="invalid-feedback">
-                                É necessário informar um sobrenome.
+                                É necessário informar um telefone celular.
                             </div>
                         </div>
                     </div>
@@ -121,7 +122,6 @@
                         </div>
                     </div>
 
-
                     <hr class="mb-4">
                     <button id="bt_enviar" class="btn btn-primary btn-lg btn-block" type="button">Enviar</button>
                 </form>
@@ -137,11 +137,12 @@
 <script>
     var data;
     $(document).ready(function() {
+        waitingDialog.show('Loading...');
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 findByUser(user.uid);
             } else {
-
+                waitingDialog.hide();
             }
         });
     });
@@ -164,18 +165,27 @@
             } else {
                 console.log("No such document!");
             }
+            waitingDialog.hide();
         }).catch(function(error) {
+            waitingDialog.hide();
             console.log("Error getting document:", error);
         });
     }
 
     $("#bt_enviar").click(function() {
-
         uploadFirebase();
 
     });
 
     function uploadFirebase() {
+
+        waitingDialog.show('Salvando aguarde...', {
+            dialogSize: 'm',
+            progressType: 'success'
+        });
+        setTimeout(function() {
+            waitingDialog.hide();
+        }, 2000);
 
         var image = document.getElementById("image").src;
 
@@ -261,9 +271,11 @@
                 update: new Date
             })
             .then(function(docRef) {
+                waitingDialog.hide();
                 console.log("Document ok update");
             })
             .catch(function(error) {
+                waitingDialog.hide();
                 console.log("Error writing document: ", error);
             });
 
